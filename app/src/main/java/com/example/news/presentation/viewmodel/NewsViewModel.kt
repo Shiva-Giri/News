@@ -13,10 +13,10 @@ class NewsViewModel(private val repository: NewsRepository) : ViewModel() {
 
     init {
         viewModelScope.launch(Dispatchers.IO){
-            repository.getPosts()
+            repository.getNews()
         }
     }
 
     val viewModelNews : LiveData<News>
-        get() = repository.posts
+        get() = repository.news
 }

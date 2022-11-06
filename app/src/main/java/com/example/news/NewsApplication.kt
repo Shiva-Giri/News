@@ -2,9 +2,8 @@ package com.example.news
 
 import android.app.Application
 import com.example.news.api.NewsService
+import com.example.news.api.RetrofitHelper
 import com.example.news.data.repository.NewsRepository
-
-import com.example.testposts.api.RetrofitHelper
 
 
 class NewsApplication : Application() {
@@ -17,8 +16,7 @@ class NewsApplication : Application() {
     }
 
     private fun initialize() {
-        val postService = RetrofitHelper.getInstance().create(NewsService::class.java)
-
-        newsRepository = NewsRepository(postService, applicationContext)
+        val newsService = RetrofitHelper.getInstance().create(NewsService::class.java)
+        newsRepository = NewsRepository(newsService, applicationContext)
     }
 }

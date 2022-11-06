@@ -1,10 +1,9 @@
 package com.example.news.presentation.adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.news.R
@@ -42,6 +41,7 @@ class NewsAdapter(val context: Context, val newsList: List<Article>) : RecyclerV
         return newsList.size
     }
 
-    inner class ViewHolder(val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root)
+   // inner
+    class ViewHolder(val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root)
   //  class ViewHolder(binding: NewsItemBinding): RecyclerView.ViewHolder(binding.root)
 }
