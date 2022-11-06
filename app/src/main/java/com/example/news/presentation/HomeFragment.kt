@@ -66,23 +66,8 @@ class HomeFragment : Fragment() {
          val bundle = Bundle()
             bundle.putString("newsList",Gson().toJson(it))
             findNavController().navigate(R.id.action_homeFragment_to_newsFragment,bundle)
-//            bundle.putString("description",it.description)
-//            bundle.putString("url",it.url)
-//            bundle.putString("urlToImage",it.urlToImage)
-//            bundle.putString("publishedAt",it.publishedAt)
-//            bundle.putString("content",it.content)
-//            bundle.putString("author",it.author)
-//         val pdf = NewsFragment()
-//
-//            pdf.arguments = bundle
-//            //   fragmentManager
-//            getParentFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.nav_host_fragment,pdf)
-//                .addToBackStack(null)
-//                .commit()
 
-    }
+             }
     }
 
     override fun onDestroyView() {
@@ -90,3 +75,21 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 }
+
+/* <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:elevation="0dp">
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:title="@string/app_name"
+            app:titleCentered="true"
+            app:titleTextColor="@color/black" />
+
+    </com.google.android.material.appbar.AppBarLayout>*/

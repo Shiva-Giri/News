@@ -23,7 +23,6 @@ class NewsAdapter(val context: Context, val newsList: List<Article>) : RecyclerV
         val news = newsList[position]
 
         with(holder) {
-
             Glide.with(context)
                 .load(news.urlToImage)
                 .placeholder(R.drawable.placeholder)
