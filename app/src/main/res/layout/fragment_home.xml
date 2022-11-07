@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.HomeFragment">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/rv_home"
+   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+       android:id="@+id/swipereferesh_news"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       />
+       android:layout_height="match_parent">
 
-</FrameLayout>
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          tools:context=".view.news.NewsFragment">
+
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/rv_home"
+             android:layout_width="0dp"
+             android:layout_height="0dp"
+             android:paddingBottom="50dp"
+             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             tools:listitem="@layout/news_item" />
+
+         <ProgressBar
+             android:id="@+id/progressBar_news"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:indeterminate="true"
+             android:indeterminateTint="@color/colorprogressbar"
+             android:visibility="gone"
+             app:layout_constraintBottom_toBottomOf="@+id/rv_home"
+             app:layout_constraintEnd_toEndOf="@+id/rv_home"
+             app:layout_constraintStart_toStartOf="@+id/rv_home"
+             app:layout_constraintTop_toTopOf="@+id/rv_home" />
+
+         <LinearLayout
+             android:id="@+id/tryAgainLayout"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:gravity="center"
+             android:orientation="vertical"
+             android:visibility="invisible"
+             app:layout_constraintBottom_toBottomOf="@+id/rv_home"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="@+id/rv_home"
+             app:layout_constraintTop_toTopOf="@+id/rv_home">
+
+
+            <TextView
+                android:id="@+id/tryAgainMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Internet Connection"
+                android:textColor="#BA000000"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/tryAgainButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Try Again"
+                tools:ignore="HardcodedText" />
+         </LinearLayout>
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

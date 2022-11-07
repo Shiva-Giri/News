@@ -1,12 +1,33 @@
 package com.example.news.utils
 
+import android.app.Application
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.AndroidViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+fun <T : Application> AndroidViewModel.hasInternetConnection(): Boolean {
+    val connectivityManager = getApplication<T>().getSystemService(
+        Context.CONNECTIVITY_SERVICE,
+    ) as ConnectivityManager
+
+    val activeNetwork = connectivityManager.activeNetwork ?: return false
+    val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+    return when {
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+        else -> false
+    }
+}
 fun View.show() {
     visibility = View.VISIBLE
 }
