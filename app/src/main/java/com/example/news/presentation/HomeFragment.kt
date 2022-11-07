@@ -23,9 +23,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    var newsAdapter: NewsAdapter? = null
     lateinit var newsViewModel: NewsViewModel
 
-     lateinit var newsAdapter: NewsAdapter
     lateinit var linearlayoutManager : LinearLayoutManager
 
     override fun onCreateView(
@@ -51,21 +51,20 @@ class HomeFragment : Fragment() {
 
         Log.d("homefrag", "onViewCreated:of HomeFrag")
         newsViewModel.viewModelNews.observe(requireActivity(), Observer {
-            val gson = Gson()
 
-            Log.d("homefrag.observe", "HomeFrag"+gson.toJson(it.articles))
+            Log.d("homefrag.observe", "HomeFrag"+Gson().toJson(it.articles))
            newsAdapter = NewsAdapter(requireActivity(),it.articles)
 
-            newsAdapter.notifyDataSetChanged()
+            newsAdapter!!.notifyDataSetChanged()
 
             binding.rvHome.adapter = newsAdapter
 
         })
-     newsAdapter.onItemClick = {
+         newsAdapter?.onItemClick = {
 
-         val bundle = Bundle()
-            bundle.putString("newsList",Gson().toJson(it))
-            findNavController().navigate(R.id.action_homeFragment_to_newsFragment,bundle)
+                 val bundle = Bundle()
+                    bundle.putString("newsList",Gson().toJson(it))
+                    findNavController().navigate(R.id.action_homeFragment_to_newsFragment,bundle)
 
              }
     }

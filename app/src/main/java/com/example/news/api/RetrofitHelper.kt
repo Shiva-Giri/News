@@ -13,7 +13,6 @@ object RetrofitHelper {
 
     private const val BASE_URL = "https://newsapi.org/"
 
-    // private val API_KEY =  "d29d58aab88d4ea0b04ddb245a230068"
 
     fun getInstance() : Retrofit {
         return Retrofit.Builder()

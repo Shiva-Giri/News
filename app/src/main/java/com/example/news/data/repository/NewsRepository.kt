@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.news.api.NewsService
 import com.example.news.data.model.News
 import com.example.news.utils.NetworkUtils
-import com.example.news.utils.Resource
-import com.example.news.utils.toast
 import com.google.gson.Gson
-import java.io.IOException
 
 
 class NewsRepository(
@@ -24,10 +21,10 @@ class NewsRepository(
         get() = newsLiveData
 
     suspend fun getNews(){
-        try {
+
             if(NetworkUtils.isInternetAvailable(applicationContext))
             {
-                val result = newsService.getNews("d29d58aab88d4ea0b04ddb245a230068","us")
+                val result = newsService.getNews("us","d29d58aab88d4ea0b04ddb245a230068")
                 if(result.body()!= null) {
 
                     val gson = Gson()
@@ -36,11 +33,8 @@ class NewsRepository(
                 }
             }
             else{
-                toast(applicationContext, "No Internet Connection.!")
+                d("TAGrepo", "getNews: no internet")
             }
-        } catch (t: Throwable) {
-            toast(applicationContext, "Exception:"+t.message!!)
-        }
 
 
     }
