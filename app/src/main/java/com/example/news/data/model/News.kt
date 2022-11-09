@@ -1,18 +1,12 @@
 package com.example.news.data.model
 
-import android.graphics.drawable.Drawable
-import android.widget.ImageView
-import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import java.io.Serializable
 
 
 data class News(
     val status: String,
     val totalResult: Int,
-    val articles: MutableList<Article>,
+    val articles: List<Article>,
 )
 
 data class Article(
@@ -32,9 +26,3 @@ data class Source(
     val name: String,
 ):Serializable
 
-  /*  @BindingAdapter("ArticleImage")
-    fun loadImage(view: ImageView, urlToImage: String?) {
-        Glide.with(view.getContext())
-            .load(urlToImage).apply(RequestOptions().circleCrop())
-            .into(view)
-    }*/

@@ -75,9 +75,4 @@ fun formatTimeAgo(date1: String): String {  // Note : date1 must be in   "yyyy-M
     }
     return conversionTime
 }
-//For going to the news source page
-//val builder = CustomTabsIntent.Builder()
-//val customTabsIntent = builder.build()
-//customTabsIntent.launchUrl(context, Uri.parse(articleResponse.url))
-
 

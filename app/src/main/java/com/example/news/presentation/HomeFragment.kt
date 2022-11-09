@@ -4,93 +4,105 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
+import com.example.news.data.model.Article
 import com.example.news.databinding.FragmentHomeBinding
 import com.example.news.presentation.adapter.NewsAdapter
 import com.example.news.presentation.viewmodel.NewsViewModel
 import com.example.news.utils.Resource
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, NewsViewModel>() {
+class HomeFragment : Fragment() {
 
-    override val viewModel: NewsViewModel by viewModels()
-   // private val viewModel by activityViewModels<NewsViewModel>()
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-    lateinit var newsAdapter: NewsAdapter
+    private val newsViewModel by viewModels<NewsViewModel>()
+    private lateinit var newsAdapter: NewsAdapter
+    lateinit var linearlayoutManager : LinearLayoutManager
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        newsAdapter = NewsAdapter(requireActivity(),::onItemClick)
+        return binding.root
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
 
-         newsAdapter.onItemClick = {
-                 val bundle = Bundle()
-                    bundle.putString("newsList",Gson().toJson(it))
-                    findNavController().navigate(R.id.action_homeFragment_to_newsFragment,bundle)
-             }
+        newsViewModel.fetchNews()
+
+        binding.rvHome.setHasFixedSize(true)
+        linearlayoutManager = LinearLayoutManager(activity)
+        binding.rvHome.layoutManager = linearlayoutManager
+        binding.rvHome.adapter = newsAdapter
+
+        bindObservers()
     }
 
-    private fun initViews() = with(binding) {
-        newsAdapter = NewsAdapter(requireContext())
-        rvHome.apply {
-            setHasFixedSize(true)
-            adapter = newsAdapter
-            setupobserver()
-        }
-    }
-
-    private fun setupobserver() = with(binding) {
-        viewModel.newsData.observe(viewLifecycleOwner, { response ->
-            when (response) {
+    private fun bindObservers()
+    {
+      newsViewModel.newsLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
                 is Resource.Success -> {
-                    progressBarStatus(false)
-                    tryAgainStatus(false)
-                    newsAdapter.differ.submitList(response.data!!.articles)
-                    rvHome.adapter = newsAdapter
+                 progressBarStatus(false)
+                  tryAgainStatus(false)
+                    newsAdapter.submitList(it.data!!.articles)
+                 //   binding.rvHome.adapter = newsAdapter
                 }
                 is Resource.Error -> {
-                    tryAgainStatus(true, response.message!!)
-                    progressBarStatus(false)
+                tryAgainStatus(true, it.message!!)
+                progressBarStatus(false)
                 }
                 is Resource.Loading -> {
-                    tryAgainStatus(false)
-                    progressBarStatus(true)
+                   tryAgainStatus(false)
+                   progressBarStatus(true)
                 }
             }
-
-
         })
+       swiperefershnews()
+    }
 
-        swiperefershnews()
+
+    private fun onItemClick(article: Article) {
+        val bundle = Bundle()
+        bundle.putString("newsList",Gson().toJson(article))
+        findNavController().navigate(R.id.action_homeFragment_to_newsFragment,bundle)
     }
 
     private fun swiperefershnews() {
-        swipereferesh_news.setOnRefreshListener {
-            viewModel.getNews()
-            swipereferesh_news.isRefreshing = false
+        binding.swiperefereshNews.setOnRefreshListener {
+            newsViewModel.fetchNews()
+            binding.swiperefereshNews.isRefreshing = false
         }
+    }
+    private fun progressBarStatus(status: Boolean) {
+        binding.progressBar.visibility = if (status) View.VISIBLE else View.GONE
+
     }
     private fun tryAgainStatus(status: Boolean, message: String = "message") {
         if (status) {
-            tryAgainMessage.text = message
-            tryAgainLayout.visibility = View.VISIBLE
+            binding.tryAgainMessage.text = message
+            binding.tryAgainLayout.visibility = View.VISIBLE
 
         } else {
-            tryAgainLayout.visibility = View.GONE
+            binding.tryAgainLayout.visibility = View.INVISIBLE
         }
     }
 
-    private fun progressBarStatus(status: Boolean) {
-        progressBar_news.visibility = if (status) View.VISIBLE else View.GONE
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-    override fun getViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentHomeBinding.inflate(inflater, container, false)
 }
