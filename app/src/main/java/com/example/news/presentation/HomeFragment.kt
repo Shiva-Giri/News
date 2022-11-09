@@ -74,7 +74,6 @@ class HomeFragment : Fragment() {
        swiperefershnews()
     }
 
-
     private fun onItemClick(article: Article) {
         val bundle = Bundle()
         bundle.putString("newsList",Gson().toJson(article))

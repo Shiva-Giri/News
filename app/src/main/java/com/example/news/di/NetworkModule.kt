@@ -23,11 +23,14 @@ object NetworkModule {
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
     }
-
+    @Provides
+    fun providesHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
     @Singleton
     @Provides
-    fun provideOkHttpClient() : OkHttpClient {
-        return OkHttpClient.Builder().build()
+    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor) : OkHttpClient {
+        return OkHttpClient.Builder().addInterceptor(interceptor).build()
     }
 
     @Singleton

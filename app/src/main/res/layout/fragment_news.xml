@@ -9,6 +9,57 @@
     android:layout_marginTop="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nsv"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_image"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            app:cardElevation="3dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            app:cardCornerRadius="2dp">
+            <ImageView
+                android:id="@+id/iv_image"
+                android:scaleType="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/placeholder"
+                />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_saveImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Image"
+            android:textColor="@color/black"
+            android:background="@drawable/textview_bg"
+            android:textSize="20sp"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ll1"
+        android:layout_marginTop="20dp"
+        android:scrollbars="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,60 +67,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/ll1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_image"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                app:cardElevation="3dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginLeft="2dp"
-                app:cardCornerRadius="2dp">
-                <ImageView
-                    android:id="@+id/iv_image"
-                    android:scaleType="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/placeholder"
-                    />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tv_saveImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save Image"
-                android:textColor="@color/black"
-                android:background="@drawable/textview_bg"
-                android:textSize="20sp"
-                android:layout_marginTop="1dp"
-                android:paddingLeft="45dp"
-                android:paddingRight="45dp"
-                android:paddingTop="7dp"
-                android:paddingBottom="5dp"
-                android:textAlignment="center"
-                android:layout_gravity="center"/>
-
-        </LinearLayout>
-        <LinearLayout
             android:id="@+id/ll2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/ll1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_newsDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="News Description"
+                android:text="News Title"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"/>
@@ -82,45 +90,45 @@
             android:layout_marginTop="20dp"
             android:layout_below="@+id/ll2"
             android:orientation="horizontal"
-            android:weightSum="9">
+          >
 
           <TextView
               android:id="@+id/authorName"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="Author Name"
-              android:layout_gravity="center_vertical"
-              android:gravity="center_vertical"
+              android:layout_gravity="center"
+              android:gravity="start"
               android:textSize="18sp"
+              android:autoSizeMaxTextSize="18sp"
               android:layout_weight="3"
               />
 
             <ImageView
                 android:id="@+id/iv_share"
-                android:layout_width="50dp"
+                android:layout_width="35dp"
                 android:layout_height="50dp"
                 android:src="@drawable/share_1"
-                android:layout_weight="3"/>
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="22 July, 2222"
-                android:textSize="20sp"
-                android:layout_weight="3"
+                android:autoSizeMaxTextSize="18sp"
+                android:textSize="18sp"
+                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="end"/>
         </LinearLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nsv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll3"
-            android:layout_marginTop="20dp"
-            android:scrollbars="vertical">
-
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/ll3"
+          android:layout_marginTop="20dp"
+          android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_newsContent"
@@ -131,6 +139,20 @@
                     android:textColor="@color/black"
                     android:textAlignment="textStart"/>
 
-        </androidx.core.widget.NestedScrollView>
+          <com.google.android.material.button.MaterialButton
+              android:id="@+id/continue_read"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              app:strokeColor="@color/black"
+              app:strokeWidth="3dp"
+              android:text="Continue Reading"
+              android:textColor="@color/black"
+              android:layout_gravity="center"
+              android:layout_marginTop="15dp"
+              />
+
+      </LinearLayout>
     </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

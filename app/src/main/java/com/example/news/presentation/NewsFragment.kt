@@ -16,6 +16,7 @@ import com.example.news.R
 import com.example.news.data.model.Article
 import com.example.news.databinding.FragmentNewsBinding
 import com.example.news.utils.formatTimeAgo
+import com.example.news.utils.toast
 import com.google.gson.Gson
 import java.io.File
 import java.io.FileOutputStream
@@ -44,7 +45,7 @@ class NewsFragment : Fragment() {
 
         article?.let {
 
-            binding.tvNewsDescription.setText(it.description)
+            binding.tvNewsDescription.setText(it.title)
             binding.authorName.setText(it.author)
             binding.tvNewsContent.setText(it.content)
 
@@ -58,7 +59,10 @@ class NewsFragment : Fragment() {
                 .into(binding.ivImage)
 
             val articleUrl : String = it.url
-
+            binding.continueRead.setOnClickListener{
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(articleUrl))
+                requireActivity().startActivity(browserIntent)
+            }
             binding.ivShare.setOnClickListener{
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
@@ -114,6 +118,7 @@ class NewsFragment : Fragment() {
       //  val contentUri = FileProvider.getUriForFile(requireContext(), packageName, f)
         mediaScanIntent.data = contentUri
         requireContext().sendBroadcast(mediaScanIntent)
+        toast(requireActivity(),"Image Saved to gallery!")
     }
 
     override fun onDestroyView() {

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.news.R
 import com.example.news.data.model.Article
 import com.example.news.data.model.News
@@ -34,7 +35,6 @@ class NewsAdapter(private val context: Context, private val onItemClick: (Articl
         return differ.currentList.size
     }*/
 
-
     inner class NewsViewHolder(private val binding: NewsItemBinding) :
         RecyclerView.ViewHolder(binding.root)
       {
@@ -45,6 +45,7 @@ class NewsAdapter(private val context: Context, private val onItemClick: (Articl
                         .load(article.urlToImage)
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.placeholder)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .into(binding.ivImage)
 
                     binding.cvImage.setOnClickListener {
