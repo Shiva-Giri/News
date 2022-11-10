@@ -1,6 +1,7 @@
 package com.example.news.data.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.example.news.BuildConfig
 import com.example.news.api.NewsService
 import com.example.news.data.model.News
 import com.example.news.utils.Resource
@@ -18,7 +19,7 @@ class NewsRepository @Inject constructor(private val newsService: NewsService) {
      suspend fun getNews() {
 
         _newsLiveData.postValue(Resource.Loading())
-        val response = newsService.getNews()
+        val response = newsService.getNews("us",BuildConfig.API_KEY)
         if (response.isSuccessful && response.body() != null) {
             _newsLiveData.postValue(Resource.Success(response.body()!!))
         }

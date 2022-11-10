@@ -1,8 +1,6 @@
 package com.example.news.api
 
 import com.example.news.data.model.News
-import com.example.news.utils.API_Key
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -10,13 +8,14 @@ import retrofit2.http.Query
 
 interface NewsService {
 
-    // https://newsapi.org/v2/top-headlines?country=us&apiKey=d29d58aab88d4ea0b04ddb245a230068
+    // https://newsapi.org/v2/top-headlines?country=us&apiKey=randomNumbera837489jsjlk4u98
+
 
     @GET("v2/top-headlines")
     suspend fun getNews(
         @Query("country")
-        countryCode: String = "us",
+        countryCode: String?,
         @Query("apiKey")
-        apiKey: String = API_Key
+        apiKey: String?
     ): Response<News>
 }
