@@ -13,10 +13,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.news.BuildConfig
 import com.example.news.R
 import com.example.news.data.model.Article
 import com.example.news.databinding.FragmentNewsBinding
@@ -87,7 +89,6 @@ class NewsFragment : Fragment() {
                 .load(imageURL)
                 .into(object : SimpleTarget<Bitmap>(1920, 1080) {
 
-
                     override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
                         saveImage(bitmap)
                     }
@@ -122,35 +123,23 @@ class NewsFragment : Fragment() {
         }
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    private fun saveFileUsingMediaStore(context: Context, url: String, fileName: String) {
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-            put(MediaStore.MediaColumns.MIME_TYPE, ".jpg")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-        }
-        val resolver = context.contentResolver
-        val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
-        if (uri != null) {
-            URL(url).openStream().use { input ->
-                resolver.openOutputStream(uri).use { output ->
-                    input.copyTo(output!!, DEFAULT_BUFFER_SIZE)
-
-                }
-            }
-        }
-        toast(requireActivity(),"Image Saved to gallery! from MediaStore")
-    }
-
     private fun galleryAddPic(imagePath: String) {
         val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
         val f = File(imagePath)
-        val contentUri: Uri = Uri.fromFile(f)
-      //  val contentUri = FileProvider.getUriForFile(requireContext(), packageName, f)
-        mediaScanIntent.data = contentUri
-        requireContext().sendBroadcast(mediaScanIntent)
-        toast(requireActivity(),"Image Saved to gallery!")
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val contentUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", f)
+            mediaScanIntent.data = contentUri
+            requireContext().sendBroadcast(mediaScanIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION))
+            toast(requireActivity(),"Image Saved to gallery >N")
+        }else {
+            val contentUri: Uri = Uri.fromFile(f)
+            mediaScanIntent.data = contentUri
+            requireContext().sendBroadcast(mediaScanIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION))
+            toast(requireActivity(),"Image Saved to gallery!")
+        }
+
     }
 
     override fun onDestroyView() {
