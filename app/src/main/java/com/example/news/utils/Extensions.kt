@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,6 +29,22 @@ fun <T : Application> AndroidViewModel.hasInternetConnection(): Boolean {
         else -> false
     }
 }
+
+fun showPermissionRequestDialog(
+    context: Context,
+    title: String,
+    body: String,
+    callback: () -> Unit
+) {
+    AlertDialog.Builder(context).also {
+        it.setTitle(title)
+        it.setMessage(body)
+        it.setPositiveButton("Ok") { _, _ ->
+            callback()
+        }
+    }.create().show()
+}
+
 fun View.show() {
     visibility = View.VISIBLE
 }
